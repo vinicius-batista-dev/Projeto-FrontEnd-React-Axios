@@ -1,9 +1,12 @@
 import React, {Component} from "react";
+import TextField from '@mui/material/TextField';
+import { Container } from "@mui/material";
+import { Grid } from "@mui/material";
+import { Button } from "@mui/material";
 
-class AddUserComponent extends Component{
+class AddUserComponent extends Component {
     constructor(props){
         super(props);
-
         this.state = {
             id: "",
             nome: "",
@@ -13,74 +16,114 @@ class AddUserComponent extends Component{
         }
         this.saveUser = this.saveUser.bind(this);
     }
+
     componentDidMount(){
         this.setState({id: this.getQueryParams('id')});
         this.setState({nome: this.getQueryParams('nome')});
-        this.setState({login: this.getQueryParams('login')});
         this.setState({idade: this.getQueryParams('idade')});
         this.setState({perfil: this.getQueryParams('perfil')});
     }
 
-    getQueryParams(variable)
-    {
+    getQueryParams(variable){
         var query = window.location.search.substring(1);
         console.log(query);
         var vars = query.split("&");
         console.log(vars);
-
-        for(var i = 0; i < vars.length; i++)
-        {
+        for(var i = 0; i < vars.length; i++){
             var pair = vars[i].split("=");
-            console.log(pair);
-
-            if(pair[0] === variable){
-                return pair[1];
-            }
+            console.log(pair)
+            if(pair[0] === variable){return pair[1];}
         }
-
         return(false);
     }
 
+    //salva o usuariono backend
     saveUser = (e) => {
-        alert('Usuario Salvo!');
+        alert('Usuario Salvo');
     }
 
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value});
+    //modifica o valor do state do campo alterado
+    onChange = (e) =>this.setState({ [e.target.name]: e.target.value});
 
     render(){
-        return (
-            <div>
+        return(
+            <Container maxWidth="sm">
                 <div>
                     <h2 className="text-center">Adicionar Usuario</h2>
                     <form>
-                        <div>
-                            <label>Nome: </label>
-                            <input type='text' name='nome' value={this.state.nome} onChange={this.onChange}></input>
-                        </div>
+                     <Grid container spacing={2}>
+                         <Grid item xs={12}>
+                            <TextField
+                                required
+                                autoFocus
+                                fullWidth
+                                id="nome"
+                                name="nome"
+                                label="Nome"
+                                value={this.state.nome}
+                                onChange={this.onChange}
+                                helperText={this.state.nomeVazio ? "Preencha o campo" : null}
+                                error={this.state.nomeVazio}>
+                            </TextField>
+                         </Grid>
 
-                        <div>
-                            <label>Login: </label>
-                            <input name="login" value={this.state.login} onChange={this.onChange}></input>
-                        </div>
+                         <Grid item xs={12}>
+                            <TextField
+                                required
+                                autoFocus
+                                fullWidth
+                                id="login"
+                                name="login"
+                                label="Login"
+                                value={this.state.login}
+                                onChange={this.onChange}
+                                helperText={this.state.loginVazio ? "Preencha o campo" : null}
+                                error={this.state.loginVazio}>
+                            </TextField>
+                         </Grid>
 
-                        <div>
-                            <label>Idade: </label>
-                            <input type="number" name="idade" value={this.state.idade} onChange={this.onChange}></input>
-                        </div>
+                         <Grid item xs={12}>
+                            <TextField
+                                required
+                                autoFocus
+                                fullWidth
+                                type="date"
+                                id="idade"
+                                name="idade"
+                                value={this.state.idade}
+                                onChange={this.onChange}
+                                helperText={this.state.idadeVazio ? "Preencha o campo" : null}
+                                error={this.state.idadeVazio}>
+                            </TextField>
+                         </Grid>
 
-                        <div>
-                            <label>Perfil: </label>
-                            <input name="perfil" value={this.state.perfil} onChange={this.onChange}></input>
-                        </div>
+                         <Grid item xs={12}>
+                            <TextField
+                                required
+                                autoFocus
+                                fullWidth
+                                id="perfil"
+                                name="perfil"
+                                label="Perfil"
+                                value={this.state.perfil}
+                                onChange={this.onChange}
+                                helperText={this.state.perfilVazio ? "Preencha o campo" : null}
+                                error={this.state.perfilVazio}>
+                            </TextField>
+                         </Grid>
 
-                        <br></br>
+                     </Grid>
+                      
+                      
+                    <br></br>
 
-                        <button onClick={this.saveUser}>Salvar</button>
+                        <Button variant="contained" color="primary" disableElevation onClick={(e) => {this.saveUser(e)}}>Salvar</Button>
                     </form>
                 </div>
-            </div>
+            </Container>
         )
     }
+    
 }
 
 export default AddUserComponent
